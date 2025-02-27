@@ -69,9 +69,9 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=ny_taxi
+      - POSTGRES_DB=wasatch_weather_data
     volumes:
-      - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+      - "./wasatch_weather_data:/var/lib/postgresql/data:rw"
     ports:
       - "5433:5432"
 
