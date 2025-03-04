@@ -3,6 +3,9 @@ volumes:
     driver: local
   kestra-data:
     driver: local
+  wasatch_weather_data:
+    driver: local  
+  
 
 services:
   postgres:
@@ -63,17 +66,19 @@ services:
       postgres:
         condition: service_started
 
-
   pgdatabase:
-    image: postgres
+    image: postgres:latest
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=wasatch_weather_data
     volumes:
-      - "./wasatch_weather_data:/var/lib/postgresql/data:rw"
+      - wasatch_weather_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+    depends_on:
+      kestra:
+        condition: service_started
 
 
   pgadmin:
@@ -81,9 +86,10 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=root
-    volumes:
-      - "./data_pgadmin:/var/lib/pgadmin"
+    # volumes:
+    #   - "./data_pgadmin:/var/lib/pgadmin"
     ports:
       - "8090:80"
     depends_on:
-      - postgres       
+      pgdatabase:
+        condition: service_started   
