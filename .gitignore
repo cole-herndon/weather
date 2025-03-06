@@ -1,2 +1,3 @@
 data_pgadmin/
 wasatch_weather_data/
+.env
